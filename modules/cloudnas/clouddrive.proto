@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+message GetTokenRequest {
+  string userName = 1;
+  string password = 2;
+}
+message JWTToken {
+  bool success = 1;
+  string errorMessage = 2;
+  string token = 3;
+  google.protobuf.Timestamp expiration = 4;
+}
+
+message AddOfflineFileRequest {
+  string urls = 1;
+  string toFolder = 2;
+}
+
+message FileOperationResult {
+  bool success = 1;
+  string errorMessage = 2;
+  repeated string resultFilePaths = 3;
+}
+message SubFilesReply { repeated CloudDriveFile subFiles = 1; }
+
+service CloudDriveFileSrv {
+  rpc GetToken (GetTokenRequest) returns (JWTToken);
+  rpc AddOfflineFiles(AddOfflineFileRequest) returns (FileOperationResult) {}
+}
+
